@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios | TecnoFix Morelia</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#121a33;
+      --card2:#162044;
+      --text:#f5f7ff;
+      --muted:#c9d3ff;
+      --primary:#7c5cff;
+      --secondary:#19c2ff;
+      --accent:#ffb84d;
+      --success:#43d39e;
+      --shadow:0 15px 35px rgba(0,0,0,.28);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,92,255,.28), transparent 28%),
+        radial-gradient(circle at top right, rgba(25,194,255,.22), transparent 26%),
+        linear-gradient(180deg, #070b16 0%, #0b1020 100%);
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(1180px, 92%);
+      margin:auto;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(14px);
+      background:rgba(7,11,22,.72);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:16px 0;
+      gap:20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:.4px;
+    }
+
+    .logo{
+      width:46px;height:46px;border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      box-shadow:0 12px 24px rgba(124,92,255,.35);
+      display:grid;place-items:center;
+      font-size:1.35rem;
+    }
+
+    .menu{
+      display:flex;
+      gap:18px;
+      align-items:center;
+    }
+
+    .menu a{
+      color:var(--muted);
+      font-weight:600;
+      position:relative;
+      padding:8px 0;
+      transition:.25s ease;
+    }
+
+    .menu a:hover{color:#fff}
+    .menu a::after{
+      content:"";
+      position:absolute;
+      left:0;bottom:0;
+      width:0;height:2px;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+      transition:.25s ease;
+    }
+    .menu a:hover::after{width:100%}
+
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 20px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#fff;
+      font-weight:700;
+      box-shadow:var(--shadow);
+      transition:.3s ease;
+    }
+    .cta-btn:hover{transform:translateY(-2px) scale(1.02)}
+
+    .nav-toggle{
+      display:none;
+      background:none;
+      border:none;
+      color:#fff;
+      font-size:1.8rem;
+      cursor:pointer;
+    }
+
+    .hero{
+      padding:52px 0 24px;
+    }
+
+    .hero-box{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:22px;
+      align-items:center;
+    }
+
+    .hero-copy{
+      animation:fadeUp .8s ease both;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      margin-bottom:18px;
+    }
+
+    h1{
+      font-size:clamp(2.2rem, 5vw, 4.6rem);
+      line-height:1.05;
+      margin-bottom:16px;
+    }
+
+    .gradient-text{
+      background:linear-gradient(90deg,#fff,var(--secondary),var(--accent));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      color:var(--muted);
+      font-size:1.05rem;
+      line-height:1.8;
+      max-width:620px;
+      margin-bottom:24px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .ghost-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 20px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      background:rgba(255,255,255,.05);
+      transition:.3s ease;
+    }
+    .ghost-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.09)}
+
+    .hero-image{
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.08);
+      animation:float 5s ease-in-out infinite;
+    }
+    .hero-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      min-height:360px;
+      max-height:520px;
+    }
+
+    section{padding:32px 0}
+
+    .section-title{
+      font-size:clamp(1.6rem, 3vw, 2.4rem);
+      margin-bottom:10px;
+    }
+
+    .section-sub{
+      color:var(--muted);
+      line-height:1.7;
+      max-width:760px;
+      margin-bottom:22px;
+    }
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .service-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      transition:.3s ease;
+    }
+
+    .service-card:hover{
+      transform:translateY(-7px);
+    }
+
+    .service-card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+    }
+
+    .service-content{
+      padding:18px 18px 20px;
+    }
+
+    .service-content h3{
+      margin-bottom:10px;
+      font-size:1.15rem;
+    }
+
+    .service-content p{
+      color:var(--muted);
+      line-height:1.7;
+      margin-bottom:12px;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .tag{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      color:#fff;
+      font-size:.88rem;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:16px;
+    }
+
+    .step{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      padding:20px;
+      border-radius:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .step strong{
+      display:inline-grid;
+      place-items:center;
+      width:44px;height:44px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      margin-bottom:12px;
+    }
+
+    .step h4{margin-bottom:8px}
+    .step p{color:var(--muted);line-height:1.6}
+
+    .cta-area{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .cta-box{
+      background:linear-gradient(135deg, rgba(124,92,255,.14), rgba(25,194,255,.12));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .cta-box p{
+      color:var(--muted);
+      line-height:1.8;
+      margin:12px 0 18px;
+    }
+
+    .contact-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .contact-item{
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.07);
+      color:var(--muted);
+    }
+
+    footer{
+      padding:26px 0 36px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(24px);
+      transition:all .7s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-10px)}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(24px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    @media (max-width: 900px){
+      .hero-box,
+      .cta-area{
+        grid-template-columns:1fr;
+      }
+      .services-grid{
+        grid-template-columns:1fr 1fr;
+      }
+      .steps{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px){
+      .menu{
+        position:absolute;
+        top:74px;
+        left:0;
+        right:0;
+        background:rgba(7,11,22,.98);
+        flex-direction:column;
+        gap:0;
+        padding:12px 16px 18px;
+        display:none;
+        border-bottom:1px solid rgba(255,255,255,.08);
+      }
+      .menu.show{display:flex}
+      .menu a{
+        width:100%;
+        padding:14px 10px;
+        border-bottom:1px solid rgba(255,255,255,.06);
+      }
+      .nav-toggle{display:block}
+      .services-grid,
+      .steps{
+        grid-template-columns:1fr;
+      }
+      .hero{
+        padding-top:28px;
+      }
+      .cta-btn,.ghost-btn{
+        width:100%;
+      }
+      .hero-actions{
+        flex-direction:column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <div class="logo">💻</div>
+        <span>TecnoFix Morelia</span>
+      </a>
+
+      <button class="nav-toggle" id="menuBtn">☰</button>
+
+      <nav class="menu" id="menu">
+        <a href="index.html">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#contacto">Contacto</a>
+        <a href="index.html" class="cta-btn">Volver al inicio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="servicios">
+      <div class="hero-box">
+        <div class="hero-copy">
+          <div class="badge">🛠️ Servicios informáticos en Morelia, Michoacán</div>
+          <h1>Todo lo que tu equipo necesita en un solo lugar.</h1>
+          <p>
+            Aquí puedes mostrar de forma clara los distintos servicios que ofreces:
+            limpieza, armado, configuración, arreglos de errores, instalación de programas y mantenimiento general.
+          </p>
+          <div class="hero-actions">
+            <a href="index.html" class="cta-btn">Ir a inicio</a>
+            <a href="#contacto" class="ghost-btn">Pedir atención</a>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d3?auto=format&fit=crop&w=1200&q=80" alt="Servicios de informática" />
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2 class="section-title">Servicios principales</h2>
+      <p class="section-sub">
+        Cada servicio está pensado para resolver problemas comunes en computadoras de escritorio y laptops, con una presentación moderna y atractiva.
+      </p>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1585079542156-2755d9c0d5f2?auto=format&fit=crop&w=1200&q=80" alt="Limpieza de computadora" />
+          <div class="service-content">
+            <h3>🧼 Limpieza interna y externa</h3>
+            <p>Retiro de polvo, limpieza de ventiladores, revisión visual y mejora de ventilación para evitar sobrecalentamiento.</p>
+            <div class="tags">
+              <span class="tag">Rápido</span>
+              <span class="tag">Seguro</span>
+              <span class="tag">Preventivo</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1624705002806-5d72df19c3ad?auto=format&fit=crop&w=1200&q=80" alt="Armado de computadora" />
+          <div class="service-content">
+            <h3>🛠️ Armado de computadoras</h3>
+            <p>Ensamblamos piezas compatibles y revisamos cada componente para asegurar un funcionamiento correcto y ordenado.</p>
+            <div class="tags">
+              <span class="tag">Compatibilidad</span>
+              <span class="tag">Orden</span>
+              <span class="tag">Profesional</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80" alt="Configuración de computadora" />
+          <div class="service-content">
+            <h3>⚙️ Configuración de sistema</h3>
+            <p>Instalación de Windows, drivers, programas esenciales, redes y ajustes para mejorar el uso del equipo.</p>
+            <div class="tags">
+              <span class="tag">Windows</span>
+              <span class="tag">Drivers</span>
+              <span class="tag">Software</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1531496730074-83b4a9f5fbbf?auto=format&fit=crop&w=1200&q=80" alt="Arreglo de errores" />
+          <div class="service-content">
+            <h3>🧩 Arreglo de errores</h3>
+            <p>Solución de fallas comunes como lentitud, errores del sistema, programas que no abren o problemas de arranque.</p>
+            <div class="tags">
+              <span class="tag">Diagnóstico</span>
+              <span class="tag">Reparación</span>
+              <span class="tag">Soporte</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80" alt="Instalación de software" />
+          <div class="service-content">
+            <h3>💿 Instalación de software</h3>
+            <p>Instalamos programas de oficina, navegación, diseño, productividad y utilidades según tus necesidades.</p>
+            <div class="tags">
+              <span class="tag">Programas</span>
+              <span class="tag">Licencias</span>
+              <span class="tag">Utilidades</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="Mantenimiento de PC" />
+          <div class="service-content">
+            <h3>🔧 Mantenimiento general</h3>
+            <p>Revisión completa del equipo para evitar fallas futuras y alargar la vida útil del hardware y software.</p>
+            <div class="tags">
+              <span class="tag">Revisión</span>
+              <span class="tag">Mejora</span>
+              <span class="tag">Cuidado</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="proceso" class="reveal">
+      <h2 class="section-title">Así trabajamos</h2>
+      <p class="section-sub">
+        Este apartado sirve para explicar tu proceso de atención de una forma clara y ordenada.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <strong>1</strong>
+          <h4>Diagnóstico</h4>
+          <p>Revisamos el problema o la necesidad del equipo.</p>
+        </div>
+        <div class="step">
+          <strong>2</strong>
+          <h4>Propuesta</h4>
+          <p>Explicamos qué se necesita hacer y por qué.</p>
+        </div>
+        <div class="step">
+          <strong>3</strong>
+          <h4>Trabajo</h4>
+          <p>Realizamos el servicio con orden y cuidado.</p>
+        </div>
+        <div class="step">
+          <strong>4</strong>
+          <h4>Entrega</h4>
+          <p>Probamos el equipo y lo dejamos listo para usar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="reveal">
+      <div class="cta-area">
+        <div class="cta-box">
+          <h2 class="section-title">Contacto</h2>
+          <p>
+            Agrega aquí tus datos reales para que tus clientes puedan encontrarte fácilmente en Morelia, Michoacán.
+          </p>
+          <div class="contact-list">
+            <div class="contact-item">📍 Morelia, Michoacán</div>
+            <div class="contact-item">📱 WhatsApp: 466 234 6480</div>
+            <div class="contact-item">✉️ franciscojavieryepezcarrasco@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="cta-box">
+          <h2 class="section-title">Volver a la página principal</h2>
+          <p>
+            Usa esta página para mostrar todos tus servicios y la principal para presentar tu negocio de informática.
+          </p>
+          <a href="index.html" class="cta-btn">Regresar al inicio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 TecnoFix Morelia — Servicios de informática y soporte técnico.
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const menu = document.getElementById('menu');
+
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('show');
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
